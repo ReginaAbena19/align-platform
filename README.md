@@ -6,7 +6,7 @@ A fullstack application to help users book on to take a pilates session with me.
 Frontend  - React + Typescript + Vite
 Backend   - Flask + SQL alchemy
 DB - SQLite 
-Deployment - Vercel on the frontend and Render on the backed 
+Deployment - Netlify on the frontend and Render on the backed 
 
 
 
