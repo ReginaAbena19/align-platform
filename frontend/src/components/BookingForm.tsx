@@ -14,6 +14,7 @@ export default function BookingForm({selectedDate,bookings, onClose}: BookingFor
     const [age, setAge] = useState("");
     const [injuries, setInjuries] = useState("");
     const [sessionType, setSessionType] = useState("");
+    const [location, setLocation] = useState("");
     const [experienceLevel, setExperienceLevel] = useState("");
     const [time, setTime] = useState("");
 
@@ -43,10 +44,13 @@ export default function BookingForm({selectedDate,bookings, onClose}: BookingFor
             age,
             injuries,
             sessionType,
+            location,
             experienceLevel,
             time,
             selectedDate 
         };
+
+        console.log(booking);
 
         try {
         const response = await fetch("http://127.0.0.1:5019/bookings", {
@@ -125,11 +129,23 @@ return (
                 <select
                     className="border rounded p-2 w-full"
                     value={sessionType}
-                    onChange={(e) => setSessionType(e.target.value)}
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        setSessionType(value);
+
+                        if (value === "Online") {
+                            setLocation("");
+                        }
+                }}
+                    required
                 >
-                    <option>Online</option>
-                    <option>Mat</option>
-                    <option>Reformer</option>
+                    <option value="" disabled>
+                        Select a session type
+                    </option>
+
+                    <option value="Online">Online</option>
+                    <option value="Mat">Mat</option>
+                    <option value="Reformer">Reformer</option>
                 </select>
             </div>
 
@@ -174,10 +190,18 @@ return (
             />
         </div>
 
-        {/* Age */}
-        <div className="mb-4">
-            <label>Age</label>
-            <input
+                        {/* Time + Session Type */}
+        <div
+            className={`grid gap-4 mb-4 ${
+            sessionType === "Online"
+            ? "grid-cols-1"
+            : "grid-cols-2"
+        }`}
+        >
+
+            <div>
+                <label>Age</label>
+                <input
                 className="border rounded p-2 w-full"
                 type="number"
                 min="18"
@@ -185,6 +209,35 @@ return (
                 onChange={(e) => setAge(e.target.value)}
                 required
             />
+            </div>
+
+            {sessionType !== "Online" && (      
+            <div>
+                <label>Location</label>
+                <select
+                    className="border rounded p-2 w-full"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    required
+                >
+                    <option value="" disabled>
+                        Select a location
+                    </option>
+
+                    <option value="Mainyard Studios Wimbledon">
+                        Mainyard Studios Wimbledon
+                    </option>
+
+                    <option value="Gympods Dalston Junction">
+                        Gympods Dalston Junction
+                    </option>
+
+                    <option value="Gympods Putney">
+                        Gympods Putney
+                    </option>
+                </select>
+            </div>
+            )} 
         </div>
 
         {/* Injuries */}
