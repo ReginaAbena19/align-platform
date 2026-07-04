@@ -18,6 +18,7 @@ class Booking(db.Model):
     age = db.Column(db.Integer)
     injuries = db.Column(db.Text)
     session_type = db.Column(db.String(50))
+    location = db.Column(db.String(100))
     experience_level = db.Column(db.String(50))
     date = db.Column(db.String(20))
     time = db.Column(db.String(10))
@@ -54,7 +55,8 @@ def create_booking():
 
     existing_booking = Booking.query.filter_by(
         date=data["selectedDate"],
-        time=data["time"]
+        time=data["time"],
+        location=data["location"]
     ).first()
 
     if existing_booking:
@@ -69,6 +71,7 @@ def create_booking():
         age=data["age"],
         injuries=data["injuries"],
         session_type=data["sessionType"],
+        location=data["location"],
         experience_level=data["experienceLevel"],
         date=data["selectedDate"],
         time=data["time"]
@@ -92,6 +95,12 @@ def get_bookings():
             "time": booking.time,
             "firstName": booking.first_name,
             "lastName": booking.last_name,
+            "email": booking.email,
+            "age": booking.age,
+            "injuries": booking.injuries,
+            "sessionType": booking.session_type,
+            "location": booking.location,
+            "experienceLevel": booking.experience_level
         }
         for booking in bookings 
     ]
