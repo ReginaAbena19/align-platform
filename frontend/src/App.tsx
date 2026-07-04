@@ -1,11 +1,18 @@
+import {BrowserRouter, Routes, Route } from 'react-router-dom';
+import Calendar from "./components/Calendar";
+import WelcomePage from "./components/WelcomePage";
+
 function App() {
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-black-500">
-        Align Frontend Running
-      </h1>
-    </div>
+    <>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/Booking" element={<Calendar />} />
+      </Routes>
+    </BrowserRouter>
+    </>
   )
 }
 
