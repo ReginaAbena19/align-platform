@@ -22,8 +22,8 @@ class Booking(db.Model):
     date = db.Column(db.String(20))
     time = db.Column(db.String(10))
 
-def __repr__(self):
-    return f"<Booking {self.first_name} {self.last_name}>"
+    def __repr__(self):
+        return f"<Booking {self.first_name} {self.last_name}>"
 
 with app.app_context():
     db.create_all()
@@ -37,6 +37,30 @@ def home():
 def create_booking():
 
     data = request.get_json()
+
+    required_fields = {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email",
+        "time": "Time"
+    }
+
+    for field, label in required_fields.items():
+        if not data.get(field):
+            return {"message": f"{label} is required."}, 400
+
+    if int(data.get("age", 0)) < 18:
+        return {"message": "You must be at least 18 years old to book."}, 400
+
+    existing_booking = Booking.query.filter_by(
+        date=data["selectedDate"],
+        time=data["time"]
+    ).first()
+
+    if existing_booking:
+        return{
+            "message": "This time slot is already booked."
+        }, 409
 
     booking = Booking(
         first_name=data["firstName"],
@@ -64,10 +88,10 @@ def get_bookings():
     return[
         {
             "id": booking.id,
-            "firstName": booking.first_name,
-            "lastName": booking.last_name,
             "date": booking.date,
             "time": booking.time,
+            "firstName": booking.first_name,
+            "lastName": booking.last_name,
         }
         for booking in bookings 
     ]

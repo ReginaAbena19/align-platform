@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+.fc {
+    font-family: inherit;
+}
+
+.fc-toolbar-title {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.fc-button {
+    background: white !important;
+    color: black !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.fc-button:hover {
+    background: #f3f4f6 !important;
+}
+
+.fc-daygrid-day {
+    cursor: pointer;
+}
+
+.fc-day-today {
+    background: transparent !important;
+}
